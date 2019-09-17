@@ -3,8 +3,7 @@
 #include "global.h"
 
 	int main(){
-		int reponseToInt;
-		char reponse[30] = {0};
+		int reponse;
 		printf("Bienvenue dans le jeu de Mastermind !\n");
    		printf("-------------------------------------\n");
 		printf("Les regles sont simples :\n");
@@ -20,31 +19,55 @@
 		printf("Pret ?\n");
 		printf("1. Commencer une nouvelle partie\n");
 		printf("2. Charger une partie existant\n");
-		scanf("%f", reponse);
-		reponseToInt = reponse - '0';
-		getMenuReponse(reponseToInt);
+
+		scanf("%i", &reponse);
+
+		if (reponse == 1)
+		{startNewGame();}
+		else if (reponse == 2)
+		{loadPartie();}
+		else
+		{printf("\n \nMauvaise entree !\n \n ");
+		main();}
 
    return 0;
 	}
 
-	void getMenuReponse(int answer){
-		char location[200];
-		switch(answer) {
-			case 1 :
-			startNewGame();
-			break;
-			case 2 :
-			loadPartie();
-			break;
-			default :
-			printf("Mauvaise entrée !");
-			main();
-			};
-	return 0;
-	}
 
 	void loadPartie(){
+		FILE * savePath = fopen("/saves/sauvegarde.txt", "r");
+		char textChar = fgetc(savePath);
+		char *token;
+		int i = 1;
 
+		token = strtok(textChar, ",");
+		while(token != NULL){
+			switch(i){
+				case 1 :
+				x = token;
+				break;
+				case 2 :
+				y = token;
+				break;
+				case 3 :
+				numTries = token;
+				break;
+				case 4 :
+				solution[0] = token;
+				break;
+				case 5 :
+				solution[1] = token;
+				break;
+				case 6 :
+				solution[2] = token;
+				break;
+				case 7 :
+				solution[3] = token;
+				break;
+			}
+		i++
+		}
+		manche()
 	}
 
 	void startNewGame(){
@@ -75,17 +98,47 @@
 			};
 		}
 	
-		printf("-------------------------------------");
-		printf("Veuillez rentrer vos couleurs ! Premier essai");
-		printf("-------------------------------------");
-		scanf("%a", rep);
+		printf("-------------------------------------\n");
+		printf("Veuillez rentrer vos couleurs ! Premier essai\n");
+		printf("-------------------------------------\n");
+		scanf("%s", rep);
 		checkAnswer(rep);
-
-	;
 	}
 
 	void checkAnswer(char * rep){
-		
+		int n;
+		int i;
+		int j;
+
+		n=0;
+		i=0;
+		x=0
+		y=0
+
+		for (j = 0; j < solution; j++)
+		{
+		if (playerAnswer[n] == solution[i] && n == i)
+		{
+		x++;
+		}
+		n++;
+		i++;
+		}
+		printf("Couleur existants et bien placées: %d",x);
+
+
+		n=0;
+		i=0;
+		for (j = 0; j < solution; j++)
+		{
+		if (playerAnswer[n] == solution[i] && n != i)
+		{
+		y++;
+		}
+		n++;
+		i++;
+		}
+		printf("Couleur existantes mais mal placées : %d",y);
 	}
 
 	void saveFile(char rep){
@@ -104,7 +157,6 @@
 		strcat(saveData, solution[2]);
 		strcat(saveData, ",");
 		strcat(saveData, solution[3]);
-
 		fputs(saveData, savePath);
 		fclose(savePath);
 		printf("--------------------");
@@ -112,7 +164,7 @@
 		printf("--------------------");
 	}
 
-	void manche(float previousAnswer){
+	void manche(){
 		char theAnswer[40];
 		scanf("votre réponse (couleur,couleur,couleur,couleur) : %a", theAnswer);
 		checkAnswer(theAnswer);
