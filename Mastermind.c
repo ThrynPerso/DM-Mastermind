@@ -65,9 +65,9 @@
 				solution[3] = token;
 				break;
 			}
-		i++
+		i++;
 		}
-		manche()
+		manche();
 	}
 
 	void startNewGame(){
@@ -101,7 +101,7 @@
 		printf("-------------------------------------\n");
 		printf("Veuillez rentrer vos couleurs ! Premier essai\n");
 		printf("-------------------------------------\n");
-		scanf("%s", rep);
+		scanf("Votre réponse : %s", rep);
 		checkAnswer(rep);
 	}
 
@@ -112,8 +112,8 @@
 
 		n=0;
 		i=0;
-		x=0
-		y=0
+		x=0;
+		y=0;
 
 		for (j = 0; j < solution; j++)
 		{
@@ -139,6 +139,8 @@
 		i++;
 		}
 		printf("Couleur existantes mais mal placées : %d",y);
+		numTries++;
+		manche();
 	}
 
 	void saveFile(char rep){
@@ -166,6 +168,6 @@
 
 	void manche(){
 		char theAnswer[40];
-		scanf("votre réponse (couleur,couleur,couleur,couleur) : %a", theAnswer);
+		scanf("votre réponse (couleur,couleur,couleur,couleur) : %s", theAnswer);
 		checkAnswer(theAnswer);
 	}
