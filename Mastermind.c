@@ -106,44 +106,75 @@
 	}
 
 	void checkAnswer(char * rep){
-		int n;
-		int i;
-		int j;
 
-		n=0;
-		i=0;
-		x=0;
-		y=0;
+		if(rep != "SAUVEGARDER"){
 
-		for (j = 0; j < solution; j++)
-		{
-		if (playerAnswer[n] == solution[i] && n == i)
-		{
-		x++;
-		}
-		n++;
-		i++;
-		}
-		printf("Couleur existants et bien placées: %d",x);
+			char *token;
+			int fill = 1;
+
+			token = strtok(rep, ",");
+			while(token != NULL){
+				switch(fill){
+					case 1 :
+					playerAnswer[0] = token;
+					break;
+					case 2 :
+					playerAnswer[1] = token;
+					break;
+					case 3 :
+					playerAnswer[2] = token;
+					break;
+					case 4 :
+					playerAnswer[3] = token;
+					break;
+				}
+			fill++;
+			}
+
+			int n;
+			int i;
+			int j;
+
+			n=0;
+			i=0;
+			x=0;
+			y=0;
+
+			for (j = 0; j < solution; j++)
+			{
+			if (playerAnswer[n] == solution[i] && n == i)
+			{
+				x++;
+				}
+				n++;
+				i++;
+			}
+			printf("Couleur existants et bien placées: %d",x);
 
 
-		n=0;
-		i=0;
-		for (j = 0; j < solution; j++)
-		{
-		if (playerAnswer[n] == solution[i] && n != i)
-		{
-		y++;
+			n=0;
+			i=0;
+			for (j = 0; j < solution; j++)
+			{
+				if (playerAnswer[n] == solution[i] && n != i)
+				{
+					y++;
+				}
+				n++;
+				i++;
+			}
+			printf("Couleur existantes mais mal placées : %d",y);
+			numTries++;
+			manche();
 		}
-		n++;
-		i++;
+		else
+		{
+			saveFile();
 		}
-		printf("Couleur existantes mais mal placées : %d",y);
-		numTries++;
-		manche();
+
 	}
 
-	void saveFile(char rep){
+	void saveFile(){
 		char saveData[150];
 		FILE * savePath = fopen("/saves/sauvegarde.txt", "w");
 		strcpy(saveData, x);
@@ -167,7 +198,7 @@
 	}
 
 	void manche(){
-		char theAnswer[40];
+		char theAnswer[40] = {0};
 		scanf("votre réponse (couleur,couleur,couleur,couleur) : %s", theAnswer);
 		checkAnswer(theAnswer);
 	}
